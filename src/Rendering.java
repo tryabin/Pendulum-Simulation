@@ -12,7 +12,7 @@ class Rendering extends JComponent implements Runnable {
     Rendering(Simulation simulation, double pixelsPerMeter, int fps) {
         this.simulation = simulation;
         this.pixelsPerMeter = pixelsPerMeter;
-        this.delayNanoSeconds = 1000*1000000 / fps;
+        this.delayNanoSeconds = 1_000*1_000_000 / fps;
     }
 
     public void startAnimation() {
@@ -43,19 +43,17 @@ class Rendering extends JComponent implements Runnable {
 
     public void run() {
 
-        //Remember the starting time
         long computationStartTime = System.nanoTime();
 
-        //This is the animation loop.
+//      The animation loop.
         while (Thread.currentThread() == animatorThread) {
 
-            // Advance the simulation one step.
-            simulation.runSimulationForOneStep(0);
-
-            //Display it.
+//          Advance the simulation one time step and render the pendulum.
+            simulation.runSimulationForOneStep();
             repaint();
 
-            //Delay depending on how far we are behind.
+//          Use a busy wait to delay the thread by just enough time so that the real-time difference between
+//          renders to the screen match delayNanoSeconds as closely as possible.
             long computationTime = System.nanoTime() - computationStartTime;
             long curDelayNanoSeconds = delayNanoSeconds - computationTime;
             long sleepStartTime = System.nanoTime();

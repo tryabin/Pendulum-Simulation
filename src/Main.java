@@ -7,26 +7,27 @@ public class Main {
 
     public static void main(String[] args) {
 
+//      Simulation settings.
         double timestep = 1/60f;
         double g = 9.81;
-        double maxTorque = 5;
         double mass = 1;
         double length = 1;
         double angle = PI/3;
         double angularVelocity = 0;
 
+//      Render settings.
         int frameWidth = 600;
         int frameHeight = 600;
         int FPS = 60;
         double pixelsPerMeter = 100;
 
+//      Initialize the simulation.
         Simulation simulation = new Simulation();
         simulation.getPendulum().setMass(mass);
         simulation.getPendulum().setLength(length);
         simulation.getPendulum().getState().setAngle(angle);
         simulation.getPendulum().getState().setAngularVelocity(angularVelocity);
         simulation.setG(g);
-        simulation.setMaxTorque(maxTorque);
         simulation.setTimestep(timestep);
 
 //      Run the simulation.
@@ -42,5 +43,3 @@ public class Main {
         canvas.startAnimation();
     }
 }
-
-
